@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+<body>
+  <div id="mensajes"></div>
+  <input type="text" id="textSend">
+</body>
 <script>
 "use strict";
 
-let socket = new WebSocket("ws://10.0.0.76:8023");
+let socket = new WebSocket("ws://127.0.0.1:8023");
 
 socket.onopen = function(e) {
+  let send = document.getElementById('send');
   const msg = {
 	"mensaje" : "hola",
   }
@@ -12,8 +17,9 @@ socket.onopen = function(e) {
 };
 
 socket.onmessage = function(event) {
-  console.log(event)
-  alert(`[message] Datos recibidos del servidor: ${event.data}`);
+  console.log(event);
+  let data = JSON.parse(event.data);
+  document.getElementById('mensajes').innerHTML += `Mensaje: ${data.valor} <br>`;
 };
 
 socket.onclose = function(event) {
